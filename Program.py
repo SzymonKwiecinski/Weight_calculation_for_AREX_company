@@ -61,6 +61,8 @@ srednica = ''
 dlugosc = ''
 napis = ''
 
+waga_1000szt = float()
+
 
 
 def select_din():
@@ -109,6 +111,7 @@ def select_dlugosc():
     index = listbox_dlugosc.curselection()[0]
     my_sheet = listbox_dlugosc.get(index)
     global dlugosc
+    global waga_1000szt
     dlugosc = str(my_sheet)
     # label_dane.configure(text=(din+' '+srednica+'x'+str(dlugosc)))
     if sheet_name_now == 'Nakretki_Podkladki':
@@ -118,12 +121,25 @@ def select_dlugosc():
         print(type(var))
         print(var)
         label_dane_z_tab_wyp.configure(font=15,text=' '+str(var)+' kg.'+'\n '+str(Prze_100szt_na_kg(var)+'\n '+str(Prze_kg_na_100szt(var))) )
+        waga_1000szt = float(var)
     if sheet_name_now != 'Nakretki_Podkladki':
         label_dane.configure(text=(din + ' ' + srednica + 'x' + str(dlugosc)))
         var = Sheet_DIN.loc[float(dlugosc),srednica]
         label_dane_z_tab_wyp.configure(font=15,text=' '+str(var)+' kg.'+'\n '+str(Prze_100szt_na_kg(var)+'\n '+str(Prze_kg_na_100szt(var))) )
+        waga_1000szt = float(var)
 
-#def oblicz_ile_to_kg():
+def oblicz_ile_to_kg():
+    if entry_oblicz.get() != '':
+        new_sztuki = float(entry_oblicz.get().replace(',','.'))
+        kilogramy = (new_sztuki * waga_1000szt) / 1000.0
+        label_wynik_obliczen.config(text=din + ' ' + srednica + 'x' + dlugosc +'\n'+ str(new_sztuki) + ' szt  =  '+ str(kilogramy)+' kg')
+
+def oblicz_ile_to_sztuk():
+    if entry_oblicz.get() != '':
+        new_kg = float(entry_oblicz.get().replace(',','.'))
+        sztuki = (new_kg / waga_1000szt) * 1000
+        # label_wynik_obliczen.config(text=str(sztuki))
+        label_wynik_obliczen.config(text=din + ' ' + srednica + 'x' + dlugosc +'\n'+ str(new_kg) + ' kg  =  '+ str(sztuki)+' szt')
 
 
 
@@ -154,10 +170,14 @@ label_oblicz_sam.configure(font=15,text='\nWpisz sztuki lub kilogramy aby\n prze
 entry_oblicz = tkinter.Entry(top)
 entry_oblicz.grid(row=3,column=8,columnspan=2)
 
-buton_oblicz_kg = tkinter.Button(top,text='Oblicz ile\nto kilogramów')#,command=oblicz_ile_to_kg)
+buton_oblicz_kg = tkinter.Button(top,text='Oblicz ile\nto kilogramów',command=oblicz_ile_to_kg)
 buton_oblicz_kg.grid(row=4,column=8)
 
-buton_oblicz_szt = tkinter.Button(top,text="Oblicz ile\nto sztuk")
+buton_oblicz_szt = tkinter.Button(top,text="Oblicz ile\nto sztuk",command=oblicz_ile_to_sztuk)
 buton_oblicz_szt.grid(row=4,column=9)
+
+label_wynik_obliczen = tkinter.Label(top)
+label_wynik_obliczen.grid(row=5, column=8,columnspan=2)
+label_wynik_obliczen.config(font=10)
 
 top.mainloop()
