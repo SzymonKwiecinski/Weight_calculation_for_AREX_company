@@ -130,16 +130,18 @@ def select_dlugosc():
 
 def oblicz_ile_to_kg():
     if entry_oblicz.get() != '':
-        new_sztuki = float(entry_oblicz.get().replace(',','.'))
+        new_sztuki = int(entry_oblicz.get().replace(',','.'))
         kilogramy = (new_sztuki * waga_1000szt) / 1000.0
-        label_wynik_obliczen.config(text=din + ' ' + srednica + 'x' + dlugosc +'\n'+ str(new_sztuki) + ' szt  =  '+ str(kilogramy)+' kg')
+        label_wynik_obliczen.config(text=din + ' ' + srednica + 'x' + dlugosc +'\n'+ str(new_sztuki) + ' szt  =  '+ format(kilogramy,'.2f')+' kg')
+
+# new_value = format(10/value,'.3f')
 
 def oblicz_ile_to_sztuk():
     if entry_oblicz.get() != '':
         new_kg = float(entry_oblicz.get().replace(',','.'))
         sztuki = (new_kg / waga_1000szt) * 1000
         # label_wynik_obliczen.config(text=str(sztuki))
-        label_wynik_obliczen.config(text=din + ' ' + srednica + 'x' + dlugosc +'\n'+ str(new_kg) + ' kg  =  '+ str(sztuki)+' szt')
+        label_wynik_obliczen.config(text=din + ' ' + srednica + 'x' + dlugosc +'\n'+ format(new_kg,'.2f') + ' kg  =  '+ format(sztuki,'.0f')+' szt')
 
 
 
