@@ -1,6 +1,4 @@
 import pandas as pd
-# import openpyxl as xl
-# import numpy as np
 import tkinter
 
 
@@ -21,13 +19,10 @@ def Prze_100szt_na_kg(value):
 
 top = tkinter.Tk()
 top.title('Program do konwersji wagowo sztukowej - AREX')
-#top.geometry("500x500")
 
 label_norma = tkinter.Label(top,text='Ustaw\n\n1: NORME    \n2: ŚREDNICE \n3: DŁUGOŚĆ ')
 label_norma.grid(row=0,column=0)
 
-label_x = tkinter.Label(top,text=' X ')
-# label_x.grid(row=0,column=5)
 
 listbox_norma = tkinter.Listbox(top,selectmode = 'SINGLE',yscrollcommand=1
                                 ,height = 5,width =30)
@@ -45,15 +40,6 @@ listbox_srednica = tkinter.Listbox(top,selectmode= 'SINGLE'
                                    ,yscrollcommand=1,height = 5)
 listbox_srednica.grid(row=0,column=3)
 
-
-# scrollbar = tkinter.Scrollbar(top)
-# scrollbar.grid(row=0,column=4)
-# scrollbar.config( command = listbox_srednica.yview )
-#
-# scrollbar1 = tkinter.Scrollbar(top)
-# scrollbar1.grid(row=0,column=7)
-# scrollbar1.config( command = listbox_dlugosc.yview )
-
 Sheet_DIN = xl.parse()
 
 din = ''
@@ -62,8 +48,6 @@ dlugosc = ''
 napis = ''
 
 waga_1000szt = float()
-
-
 
 def select_din():
     global Sheet_DIN
@@ -80,13 +64,8 @@ def select_din():
         buton_select_srednica.configure(text='Wybierz Średnice')
         buton_select_dlugosc.configure(text='Wybierz Długość')
     Sheet_DIN = xl.parse(my_sheet,index_col=0)
-    # print(Sheet_DIN)
     for x in Sheet_DIN.columns.values:
         listbox_srednica.insert('end',x)
-    # for x in Sheet_DIN.index.values:
-    #     listbox_dlugosc.insert('end', x)
-    #     print(x)
-    # select_rozmiar()
     global din
     din = str(my_sheet)
     label_dane.configure(text=din,font=100)
@@ -113,7 +92,6 @@ def select_dlugosc():
     global dlugosc
     global waga_1000szt
     dlugosc = str(my_sheet)
-    # label_dane.configure(text=(din+' '+srednica+'x'+str(dlugosc)))
     if sheet_name_now == 'Nakretki_Podkladki':
         label_dane.configure(text=(srednica + '  ' + str(dlugosc)))
         var = Sheet_DIN.loc[dlugosc, srednica]
@@ -134,13 +112,10 @@ def oblicz_ile_to_kg():
         kilogramy = (new_sztuki * waga_1000szt) / 1000.0
         label_wynik_obliczen.config(text=din + ' ' + srednica + 'x' + dlugosc +'\n'+ str(new_sztuki) + ' szt  =  '+ format(kilogramy,'.2f')+' kg')
 
-# new_value = format(10/value,'.3f')
-
 def oblicz_ile_to_sztuk():
     if entry_oblicz.get() != '':
         new_kg = float(entry_oblicz.get().replace(',','.'))
         sztuki = (new_kg / waga_1000szt) * 1000
-        # label_wynik_obliczen.config(text=str(sztuki))
         label_wynik_obliczen.config(text=din + ' ' + srednica + 'x' + dlugosc +'\n'+ format(new_kg,'.2f') + ' kg  =  '+ format(sztuki,'.0f')+' szt')
 
 
@@ -163,8 +138,6 @@ label_dane_z_tab.configure(font=15,text='            1000 sztuk waży :\nPrzelic
 
 label_dane_z_tab_wyp = tkinter.Label(top)
 label_dane_z_tab_wyp.grid(column=9,row=1,padx=60)
-# label_dane.configure(text='asdasd')
-# ,columnspan=6
 label_oblicz_sam = tkinter.Label(top)
 label_oblicz_sam.grid(column=8,row=2,columnspan=2)
 label_oblicz_sam.configure(font=15,text='\nWpisz sztuki lub kilogramy aby\n przeliczyć na inną jednostkę')
@@ -181,5 +154,9 @@ buton_oblicz_szt.grid(row=4,column=9)
 label_wynik_obliczen = tkinter.Label(top)
 label_wynik_obliczen.grid(row=5, column=8,columnspan=2)
 label_wynik_obliczen.config(font=10)
+
+label_oblicz_cene_tekst = tkinter.Label(top)
+label_oblicz_cene_tekst.grid(row=6,column=8,columnspan=2)
+label_oblicz_cene_tekst.config(font=15,text='Wpisz cene za 100szt lub za kg')
 
 top.mainloop()
