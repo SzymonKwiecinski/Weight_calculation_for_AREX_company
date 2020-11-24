@@ -1,8 +1,6 @@
 import pandas as pd
 import tkinter
 
-
-
 file = 'Przelicznik.xlsx'
 xl = pd.ExcelFile(file)
 print(xl.sheet_names)
@@ -25,19 +23,19 @@ label_norma.grid(row=0,column=0)
 
 
 listbox_norma = tkinter.Listbox(top,selectmode = 'SINGLE',yscrollcommand=1
-                                ,height = 5,width =30)
+                                ,height = 16,width =30)
 listbox_norma.grid(row=0,column=1)
 for x,y in enumerate(sheet_name):
     listbox_norma.insert(x+1,y)
 
 
 listbox_dlugosc = tkinter.Listbox(top,selectmode= 'SINGLE'
-                                   ,yscrollcommand=1,height = 5)
+                                   ,yscrollcommand=1,height = 16)
 listbox_dlugosc.grid(row=0,column=6)
 
 
 listbox_srednica = tkinter.Listbox(top,selectmode= 'SINGLE'
-                                   ,yscrollcommand=1,height = 5)
+                                   ,yscrollcommand=1,height = 16)
 listbox_srednica.grid(row=0,column=3)
 
 Sheet_DIN = xl.parse()
@@ -118,6 +116,17 @@ def oblicz_ile_to_sztuk():
         sztuki = (new_kg / waga_1000szt) * 1000
         label_wynik_obliczen.config(text=din + ' ' + srednica + 'x' + dlugosc +'\n'+ format(new_kg,'.2f') + ' kg  =  '+ format(sztuki,'.0f')+' szt')
 
+def konwersja_cena_100szt_na_kg():
+    cena = float(entry_oblicz_cene.get().replace(',','.'))
+    cena_za_1kg = cena / (10/waga_1000szt)
+    label_wynik_obliczen_cena.config(text=format(cena,'.2f') +'zł/100szt = '+ format(cena_za_1kg,'.2f') + 'zł/kg')
+
+def konwersja_cena_kg_na_100szt():
+    cena = float(entry_oblicz_cene.get().replace(',','.')) 
+    przelicznik = 1000 / waga_1000szt
+    cena_100szt = cena / (100 / przelicznik )
+    label_wynik_obliczen_cena.config(text=format(cena,'.2f') +'zł/kg = '+ format(cena_100szt,'.2f') + 'zł/100szt')
+
 
 
 buton_select_din = tkinter.Button(top, text='Wybierz Normę', command=select_din)
@@ -158,5 +167,20 @@ label_wynik_obliczen.config(font=10)
 label_oblicz_cene_tekst = tkinter.Label(top)
 label_oblicz_cene_tekst.grid(row=6,column=8,columnspan=2)
 label_oblicz_cene_tekst.config(font=15,text='Wpisz cene za 100szt lub za kg')
+
+entry_oblicz_cene = tkinter.Entry(top)
+entry_oblicz_cene.grid(row=7,column=8,columnspan=2)
+
+buton_oblicz_kg = tkinter.Button(top,text='Konwersja ceny z\nzł/100szt -> zł/kg',command=konwersja_cena_100szt_na_kg)
+buton_oblicz_kg.grid(row=8,column=8)
+
+buton_oblicz_szt = tkinter.Button(top,text="Konwersja ceny z\nzł/kg -> zł/100szt",command=konwersja_cena_kg_na_100szt)
+buton_oblicz_szt.grid(row=8,column=9)
+
+
+
+label_wynik_obliczen_cena = tkinter.Label(top)
+label_wynik_obliczen_cena.grid(row=9, column=8,columnspan=2)
+label_wynik_obliczen_cena.config(font=10)
 
 top.mainloop()
