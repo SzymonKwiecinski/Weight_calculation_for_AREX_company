@@ -1,5 +1,6 @@
 import pandas as pd
 import tkinter
+import os
 
 file = 'Przelicznik.xlsx'
 xl = pd.ExcelFile(file)
@@ -101,22 +102,34 @@ def konwersja_cena_kg_na_100szt():
     cena_100szt = (cena / przelicznik) * 100 
     label_wynik_obliczen_cena.config(text=format(cena,'.2f') +'zł/kg = '+ format(cena_100szt,'.2f') + 'zł/100szt')
 
+def open_pdf_file_program():
+    print('xf')
+    # os.startfile('instrukcja.pdf')
+
+def open_pdf_file_exel():
+    print('xf')
+    #os.startfile('Instrukcja_do_subiekta_gt.pdf')
+
+def open_pdf_file_subiekt():
+    print('xf')
+    os.startfile('Instrukcja_do_subiekta_gt.pdf')
+
 top = tkinter.Tk()
 top.title('Program do konwersji wagowo sztukowej - AREX')
 
 listbox_norma = tkinter.Listbox(top,selectmode = 'SINGLE',yscrollcommand=1,height = 16,width =30)
-listbox_norma.grid(row=0,column=1,rowspan=4)
+listbox_norma.grid(row=0,column=2,rowspan=4,padx=3,pady=3)
 for x,y in enumerate(sheet_name):
     listbox_norma.insert(x+1,y)
 
 listbox_dlugosc = tkinter.Listbox(top,selectmode= 'SINGLE',yscrollcommand=1,height = 16)
-listbox_dlugosc.grid(row=0,column=6,rowspan=4)
+listbox_dlugosc.grid(row=0,column=6,rowspan=4,padx=3,pady=3)
 
 listbox_srednica = tkinter.Listbox(top,selectmode= 'SINGLE',yscrollcommand=1,height = 16)
-listbox_srednica.grid(row=0,column=3,rowspan=4)
+listbox_srednica.grid(row=0,column=3,rowspan=4,padx=3,pady=3)
 
 buton_select_din = tkinter.Button(top, text='Wybierz Normę', command=select_din)
-buton_select_din.grid(row=4,column=1)
+buton_select_din.grid(row=4,column=2)
 
 buton_select_srednica = tkinter.Button(top, text='Wybierz Średnice', command=select_srednice)
 buton_select_srednica.grid(row=4,column=3)
@@ -145,10 +158,10 @@ entry_oblicz = tkinter.Entry(top)
 entry_oblicz.grid(row=3,column=8,columnspan=2)
 
 buton_oblicz_kg = tkinter.Button(top,text='Oblicz ile\nto kilogramów',command=oblicz_ile_to_kg)
-buton_oblicz_kg.grid(row=4,column=8)
+buton_oblicz_kg.grid(row=4,column=8,padx=3,pady=3)
 
 buton_oblicz_szt = tkinter.Button(top,text="Oblicz ile\nto sztuk",command=oblicz_ile_to_sztuk)
-buton_oblicz_szt.grid(row=4,column=9)
+buton_oblicz_szt.grid(row=4,column=9,padx=3,pady=3)
 
 label_wynik_obliczen = tkinter.Label(top)
 label_wynik_obliczen.grid(row=5, column=8,columnspan=2)
@@ -162,15 +175,23 @@ entry_oblicz_cene = tkinter.Entry(top)
 entry_oblicz_cene.grid(row=7,column=8,columnspan=2)
 
 buton_oblicz_kg = tkinter.Button(top,text='Konwersja ceny z\nzł/100szt -> zł/kg',command=konwersja_cena_100szt_na_kg)
-buton_oblicz_kg.grid(row=8,column=8)
+buton_oblicz_kg.grid(row=8,column=8,padx=3,pady=3)
 
 buton_oblicz_szt = tkinter.Button(top,text="Konwersja ceny z\nzł/kg -> zł/100szt",command=konwersja_cena_kg_na_100szt)
-buton_oblicz_szt.grid(row=8,column=9)
+buton_oblicz_szt.grid(row=8,column=9,padx=3,pady=3)
 
 label_wynik_obliczen_cena = tkinter.Label(top)
 label_wynik_obliczen_cena.grid(row=9, column=8,columnspan=2)
 label_wynik_obliczen_cena.config(font=10,fg='blue')
 
-top.mainloop()
 
-open('English certificate.pdf')
+buton_instrukcja = tkinter.Button(top,text='INSTRUKCJA PROGRAMU',font="Verdena 12 bold",fg='black',bg='red',command=open_pdf_file_program)
+buton_instrukcja.grid(row=7,column=2,columnspan=5)
+
+buton_instrukcja_do_exela = tkinter.Button(top,text='INSTRUKCJA DODAWANIA KOLEJNYCH ROZMIARÓW',font="Verdena 12 bold",fg='black',bg='red',command=open_pdf_file_exel)
+buton_instrukcja_do_exela.grid(row=8,column=2,columnspan=5)
+
+buton_instrukcja_do_subiekta = tkinter.Button(top,text='INSTRUKCJA DODAWANIA PRZELICZNIKÓW DO SUBIEKTA',font="Verdena 12 bold",fg='black',bg='red',command=open_pdf_file_subiekt)
+buton_instrukcja_do_subiekta.grid(row=9,column=2,columnspan=5)
+
+top.mainloop()
