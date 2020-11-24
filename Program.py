@@ -48,8 +48,11 @@ def select_srednice():
     listbox_dlugosc.delete(0,'end')
     index = listbox_srednica.curselection()[0]
     my_sheet = listbox_srednica.get(index)
+    print(my_sheet)
+    print(type(my_sheet))
     for x in Sheet_DIN.index.values:
-        if Sheet_DIN.loc[x,str(my_sheet)]!= 'None':
+        print(x)
+        if Sheet_DIN.loc[x,str(my_sheet)] != 'None':
             listbox_dlugosc.insert('end', x)
     global srednica
     srednica = str(my_sheet)
@@ -67,10 +70,7 @@ def select_dlugosc():
     if sheet_name_now == 'Nakretki_Podkladki':
         label_dane.configure(text=(srednica + '  ' + str(dlugosc)))
         var = Sheet_DIN.loc[dlugosc, srednica]
-        var = round(var,2)
-        print(type(var))
-        print(var)
-        label_dane_z_tab_wyp.configure(font=15,text=' '+str(var)+' kg.'+'\n '+str(Prze_100szt_na_kg(var)+'\n '+str(Prze_kg_na_100szt(var))) )
+        label_dane_z_tab_wyp.configure(text=' '+str(var)+' kg.'+'\n '+str(Prze_100szt_na_kg(var)+'\n '+str(Prze_kg_na_100szt(var))) )
         waga_1000szt = float(var)
     if sheet_name_now != 'Nakretki_Podkladki':
         label_dane.configure(text=(din + ' ' + srednica + 'x' + str(dlugosc)))
@@ -92,13 +92,13 @@ def oblicz_ile_to_sztuk():
 
 def konwersja_cena_100szt_na_kg():
     cena = float(entry_oblicz_cene.get().replace(',','.'))
-    cena_za_1kg = cena / (10/waga_1000szt)
+    cena_za_1kg = cena / (waga_1000szt / 10)
     label_wynik_obliczen_cena.config(text=format(cena,'.2f') +'zł/100szt = '+ format(cena_za_1kg,'.2f') + 'zł/kg')
 
 def konwersja_cena_kg_na_100szt():
     cena = float(entry_oblicz_cene.get().replace(',','.')) 
     przelicznik = 1000 / waga_1000szt
-    cena_100szt = cena / (100 / przelicznik )
+    cena_100szt = (cena / przelicznik) * 100 
     label_wynik_obliczen_cena.config(text=format(cena,'.2f') +'zł/kg = '+ format(cena_100szt,'.2f') + 'zł/100szt')
 
 top = tkinter.Tk()
@@ -134,7 +134,7 @@ label_dane_z_tab.grid(column=8,row=1)
 label_dane_z_tab.configure(font=15,text='            1000 sztuk waży :\nPrzelicznik 100szt. na kg. :\nPrzelicznik kg. na 100szt. :')
 
 label_dane_z_tab_wyp = tkinter.Label(top)
-label_dane_z_tab_wyp.grid(column=9,row=1,padx=60)
+label_dane_z_tab_wyp.grid(column=9,row=1)
 label_dane_z_tab_wyp.config(font=15,fg='blue')
 
 label_oblicz_sam = tkinter.Label(top)
@@ -172,3 +172,5 @@ label_wynik_obliczen_cena.grid(row=9, column=8,columnspan=2)
 label_wynik_obliczen_cena.config(font=10,fg='blue')
 
 top.mainloop()
+
+open('English certificate.pdf')
