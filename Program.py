@@ -24,19 +24,19 @@ top.title('Program do konwersji wagowo sztukowej - AREX')
 
 listbox_norma = tkinter.Listbox(top,selectmode = 'SINGLE',yscrollcommand=1
                                 ,height = 16,width =30)
-listbox_norma.grid(row=0,column=1,columnspan=2)
+listbox_norma.grid(row=0,column=1,rowspan=4)
 for x,y in enumerate(sheet_name):
     listbox_norma.insert(x+1,y)
 
 
 listbox_dlugosc = tkinter.Listbox(top,selectmode= 'SINGLE'
                                    ,yscrollcommand=1,height = 16)
-listbox_dlugosc.grid(row=0,column=6,columnspan=2)
+listbox_dlugosc.grid(row=0,column=6,rowspan=4)
 
 
 listbox_srednica = tkinter.Listbox(top,selectmode= 'SINGLE'
                                    ,yscrollcommand=1,height = 16)
-listbox_srednica.grid(row=0,column=3,columnspan=2)
+listbox_srednica.grid(row=0,column=3,rowspan=4)
 
 Sheet_DIN = xl.parse()
 
@@ -82,7 +82,7 @@ def select_srednice():
     if sheet_name_now == 'Nakretki_Podkladki':
         label_dane.configure(text=srednica)
     if sheet_name_now != 'Nakretki_Podkladki':
-        label_dane.configure(text=(din + ' \n' + srednica))
+        label_dane.configure(text=(din + ' ' + srednica))
 
 def select_dlugosc():
     index = listbox_dlugosc.curselection()[0]
@@ -99,7 +99,7 @@ def select_dlugosc():
         label_dane_z_tab_wyp.configure(font=15,text=' '+str(var)+' kg.'+'\n '+str(Prze_100szt_na_kg(var)+'\n '+str(Prze_kg_na_100szt(var))) )
         waga_1000szt = float(var)
     if sheet_name_now != 'Nakretki_Podkladki':
-        label_dane.configure(text=(din + ' \n' + srednica + 'x' + str(dlugosc)))
+        label_dane.configure(text=(din + ' ' + srednica + 'x' + str(dlugosc)))
         var = Sheet_DIN.loc[float(dlugosc),srednica]
         label_dane_z_tab_wyp.configure(text=' '+str(var)+' kg.'+'\n '+str(Prze_100szt_na_kg(var)+'\n '+str(Prze_kg_na_100szt(var))) )
         waga_1000szt = float(var)
@@ -130,17 +130,17 @@ def konwersja_cena_kg_na_100szt():
 
 
 buton_select_din = tkinter.Button(top, text='Wybierz Normę', command=select_din)
-buton_select_din.grid(row=1,column=1)
+buton_select_din.grid(row=4,column=1)
 
 buton_select_srednica = tkinter.Button(top, text='Wybierz Średnice', command=select_srednice)
-buton_select_srednica.grid(row=1,column=3)
+buton_select_srednica.grid(row=4,column=3)
 
 buton_select_dlugosc = tkinter.Button(top, text='Wybierz Dlugość', command=select_dlugosc)
-buton_select_dlugosc.grid(row=1,column=6)
+buton_select_dlugosc.grid(row=4,column=6)
 
 label_dane = tkinter.Label(top)
 label_dane.grid(column=8,row=0,columnspan=2)
-label_dane.config(font ="Verdena 32 bold",fg='blue')
+label_dane.config(font ="Verdena 20 bold",fg='blue')
 
 
 label_dane_z_tab = tkinter.Label(top)
