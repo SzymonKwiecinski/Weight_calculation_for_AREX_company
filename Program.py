@@ -5,6 +5,13 @@ file = 'Przelicznik.xlsx'
 xl = pd.ExcelFile(file)
 print(xl.sheet_names)
 sheet_name = xl.sheet_names
+Sheet_DIN = xl.parse()
+
+din = str()
+srednica = str()
+dlugosc = str()
+napis = str()
+waga_1000szt = float()
 
 def Prze_kg_na_100szt(value):
     new_value = format(value/10,'.3f')
@@ -13,39 +20,6 @@ def Prze_kg_na_100szt(value):
 def Prze_100szt_na_kg(value):
     new_value = format(10/value,'.3f')
     return new_value
-
-
-top = tkinter.Tk()
-top.title('Program do konwersji wagowo sztukowej - AREX')
-
-# label_norma = tkinter.Label(top,text='Ustaw\n\n1: NORME    \n2: ŚREDNICE \n3: DŁUGOŚĆ ')
-# label_norma.grid(row=0,column=0)
-
-
-listbox_norma = tkinter.Listbox(top,selectmode = 'SINGLE',yscrollcommand=1
-                                ,height = 16,width =30)
-listbox_norma.grid(row=0,column=1,rowspan=4)
-for x,y in enumerate(sheet_name):
-    listbox_norma.insert(x+1,y)
-
-
-listbox_dlugosc = tkinter.Listbox(top,selectmode= 'SINGLE'
-                                   ,yscrollcommand=1,height = 16)
-listbox_dlugosc.grid(row=0,column=6,rowspan=4)
-
-
-listbox_srednica = tkinter.Listbox(top,selectmode= 'SINGLE'
-                                   ,yscrollcommand=1,height = 16)
-listbox_srednica.grid(row=0,column=3,rowspan=4)
-
-Sheet_DIN = xl.parse()
-
-din = ''
-srednica = ''
-dlugosc = ''
-napis = ''
-
-waga_1000szt = float()
 
 def select_din():
     global Sheet_DIN
@@ -127,7 +101,19 @@ def konwersja_cena_kg_na_100szt():
     cena_100szt = cena / (100 / przelicznik )
     label_wynik_obliczen_cena.config(text=format(cena,'.2f') +'zł/kg = '+ format(cena_100szt,'.2f') + 'zł/100szt')
 
+top = tkinter.Tk()
+top.title('Program do konwersji wagowo sztukowej - AREX')
 
+listbox_norma = tkinter.Listbox(top,selectmode = 'SINGLE',yscrollcommand=1,height = 16,width =30)
+listbox_norma.grid(row=0,column=1,rowspan=4)
+for x,y in enumerate(sheet_name):
+    listbox_norma.insert(x+1,y)
+
+listbox_dlugosc = tkinter.Listbox(top,selectmode= 'SINGLE',yscrollcommand=1,height = 16)
+listbox_dlugosc.grid(row=0,column=6,rowspan=4)
+
+listbox_srednica = tkinter.Listbox(top,selectmode= 'SINGLE',yscrollcommand=1,height = 16)
+listbox_srednica.grid(row=0,column=3,rowspan=4)
 
 buton_select_din = tkinter.Button(top, text='Wybierz Normę', command=select_din)
 buton_select_din.grid(row=4,column=1)
