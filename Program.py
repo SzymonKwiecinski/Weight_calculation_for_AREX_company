@@ -4,7 +4,6 @@ import os
 
 file = 'Przelicznik.xlsx'
 xl = pd.ExcelFile(file)
-print(xl.sheet_names)
 sheet_name = xl.sheet_names
 Sheet_DIN = xl.parse()
 
@@ -116,15 +115,25 @@ top = tkinter.Tk()
 top.title('Program do konwersji wagowo sztukowej - AREX')
 
 listbox_norma = tkinter.Listbox(top,selectmode = 'SINGLE',yscrollcommand=1,height = 16,width =30)
-listbox_norma.grid(row=0,column=2,rowspan=4,padx=3,pady=3)
+listbox_norma.grid(row=0,column=2,rowspan=4,padx=1,pady=3)
 for x,y in enumerate(sheet_name):
     listbox_norma.insert(x+1,y)
 
-listbox_dlugosc = tkinter.Listbox(top,selectmode= 'SINGLE',yscrollcommand=1,height = 16)
-listbox_dlugosc.grid(row=0,column=6,rowspan=4,padx=3,pady=3)
+scrollbar_dlugosc = tkinter.Scrollbar(top)
+scrollbar_dlugosc.grid(row=0,column=7,rowspan=4, sticky='ns')
 
-listbox_srednica = tkinter.Listbox(top,selectmode= 'SINGLE',yscrollcommand=1,height = 16)
-listbox_srednica.grid(row=0,column=3,rowspan=4,padx=3,pady=3)
+listbox_dlugosc = tkinter.Listbox(top, yscrollcommand =scrollbar_dlugosc.set,selectmode= 'SINGLE',height = 16)
+listbox_dlugosc.grid(row=0,column=6,rowspan=4,pady=3)
+
+scrollbar_dlugosc.config(command = listbox_dlugosc.yview)
+
+scrollbar_srednica = tkinter.Scrollbar(top)
+scrollbar_srednica.grid(row=0,column=4,rowspan=4, sticky='ns')
+
+listbox_srednica = tkinter.Listbox(top, yscrollcommand =scrollbar_srednica.set, selectmode= 'SINGLE',height = 16)
+listbox_srednica.grid(row=0,column=3,rowspan=4,pady=3)
+
+scrollbar_srednica.config(command = listbox_srednica.yview)
 
 buton_select_din = tkinter.Button(top, text='Wybierz Normę', command=select_din)
 buton_select_din.grid(row=4,column=2)
@@ -183,15 +192,19 @@ label_wynik_obliczen_cena.grid(row=9, column=8,columnspan=2)
 label_wynik_obliczen_cena.config(font=10,fg='blue')
 
 buton_instrukcja = tkinter.Button(top,text='EXEL Z DANYMI',font="Verdena 12 bold",fg='black',bg='green',command=open_exel)
-buton_instrukcja.grid(row=6,column=2,columnspan=5,padx=3,pady=3)
+buton_instrukcja.grid(row=6,column=2,columnspan=6,padx=3,pady=3)
 
 buton_instrukcja = tkinter.Button(top,text='INSTRUKCJA PROGRAMU',font="Verdena 12 bold",fg='black',bg='red',command=open_pdf_file_program)
-buton_instrukcja.grid(row=7,column=2,columnspan=5)
+buton_instrukcja.grid(row=7,column=2,columnspan=6)
 
 buton_instrukcja_do_exela = tkinter.Button(top,text='INSTRUKCJA DODAWANIA KOLEJNYCH ROZMIARÓW',font="Verdena 12 bold",fg='black',bg='red',command=open_pdf_file_exel)
-buton_instrukcja_do_exela.grid(row=8,column=2,columnspan=5)
+buton_instrukcja_do_exela.grid(row=8,column=2,columnspan=6)
 
 buton_instrukcja_do_subiekta = tkinter.Button(top,text='INSTRUKCJA DODAWANIA PRZELICZNIKÓW DO SUBIEKTA',font="Verdena 12 bold",fg='black',bg='red',command=open_pdf_file_subiekt)
-buton_instrukcja_do_subiekta.grid(row=9,column=2,columnspan=5)
+buton_instrukcja_do_subiekta.grid(row=9,column=2,columnspan=6)
+
+
+
+
 
 top.mainloop()
