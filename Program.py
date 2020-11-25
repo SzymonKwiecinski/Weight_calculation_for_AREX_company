@@ -102,8 +102,7 @@ def open_exel():
     os.startfile('Przelicznik.xlsx')
 
 def open_pdf_file_program():
-    print('xf')
-    # os.startfile('instrukcja.pdf')
+    os.startfile('Instrukcja_do_programu.pdf')
 
 def open_pdf_file_exel():
     os.startfile('Instrukcja_do_wstawiania_danych_do_exel.pdf')
