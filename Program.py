@@ -49,10 +49,7 @@ def select_srednice():
     listbox_dlugosc.delete(0,'end')
     index = listbox_srednica.curselection()[0]
     my_sheet = listbox_srednica.get(index)
-    print(my_sheet)
-    print(type(my_sheet))
     for x in Sheet_DIN.index.values:
-        print(x)
         if Sheet_DIN.loc[x,str(my_sheet)] != 'None':
             listbox_dlugosc.insert('end', x)
     global srednica
@@ -102,16 +99,17 @@ def konwersja_cena_kg_na_100szt():
     cena_100szt = (cena / przelicznik) * 100 
     label_wynik_obliczen_cena.config(text=format(cena,'.2f') +'zł/kg = '+ format(cena_100szt,'.2f') + 'zł/100szt')
 
+def open_exel():
+    os.startfile('Przelicznik.xlsx')
+
 def open_pdf_file_program():
     print('xf')
     # os.startfile('instrukcja.pdf')
 
 def open_pdf_file_exel():
-    print('xf')
-    #os.startfile('Instrukcja_do_subiekta_gt.pdf')
+    os.startfile('Instrukcja_do_wstawiania_danych_do_exel.pdf')
 
 def open_pdf_file_subiekt():
-    print('xf')
     os.startfile('Instrukcja_do_subiekta_gt.pdf')
 
 top = tkinter.Tk()
@@ -184,6 +182,8 @@ label_wynik_obliczen_cena = tkinter.Label(top)
 label_wynik_obliczen_cena.grid(row=9, column=8,columnspan=2)
 label_wynik_obliczen_cena.config(font=10,fg='blue')
 
+buton_instrukcja = tkinter.Button(top,text='EXEL Z DANYMI',font="Verdena 12 bold",fg='black',bg='green',command=open_exel)
+buton_instrukcja.grid(row=6,column=2,columnspan=5,padx=3,pady=3)
 
 buton_instrukcja = tkinter.Button(top,text='INSTRUKCJA PROGRAMU',font="Verdena 12 bold",fg='black',bg='red',command=open_pdf_file_program)
 buton_instrukcja.grid(row=7,column=2,columnspan=5)
