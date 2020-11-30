@@ -1,0 +1,2 @@
+kiedy wybieramy norme/srednice (po raz drugi to rezultaty powinny zniknac)
+swiecenie na zielono strefy obliczajacej gdy wszysko jest ok
